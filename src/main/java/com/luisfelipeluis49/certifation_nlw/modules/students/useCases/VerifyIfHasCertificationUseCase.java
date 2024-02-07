@@ -1,15 +1,20 @@
 package com.luisfelipeluis49.certifation_nlw.modules.students.useCases;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.luisfelipeluis49.certifation_nlw.modules.students.dto.VerifyHasCertificationDTO;
+import com.luisfelipeluis49.certifation_nlw.modules.students.repositories.CertificationStudentRepository;
 
 @Service
 public class VerifyIfHasCertificationUseCase {
-    
+
+    @Autowired
+    private CertificationStudentRepository certificationStudentRepository;
 
     public boolean execute( VerifyHasCertificationDTO dto ) {
-        if(dto.getEmail().equals("luis.mail@sionmid.com") && dto.getTechnology().equals("Java")) {
+        var result = this.certificationStudentRepository.findByStudentEmailAndTechnology(dto.getEmail(), dto.getTechnology());
+        if (!result.isEmpty()) {
             return true;
         }
         else return false;
